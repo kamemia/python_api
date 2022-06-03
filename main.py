@@ -13,14 +13,15 @@ from flask import flash, request
 def create_user():
     try:
         _json = request.json
-        _id = _json['id']
-        _name = _json['name']
+        _fname = _json['fname']
+        _lname = _json['lname']
         _age = _json['age']
-        if _id and _name and _age and request.method == 'POST':
+        _id = _json['id']
+        if _id and _fname and _lname and _age and id and request.method == 'POST':
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            sqlQuery = 'INSERT INTO user(id, name, age) VALUES(%s, %s, %s)'
-            bindData = (_id, _name, _age)
+            sqlQuery = 'INSERT INTO user(fname, lname, age, id) VALUES(%s, %s, %s, %s)'
+            bindData = (_fname, _lname, _age, _id) 
             cursor.execute(sqlQuery, bindData)
             conn.commit()
             response = jsonify('User added successfully')
@@ -39,7 +40,7 @@ def user():
     try:
         conn = mysql.connect()
         cursor = conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute('SELECT id, name, age FROM user')
+        cursor.execute('SELECT fname, lname, age, id FROM user')
         userRows = cursor.fetchall()
         response = jsonify(userRows)
         response.status_code = 200
