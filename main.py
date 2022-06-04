@@ -9,6 +9,7 @@ from config import mysql
 from flask import jsonify
 from flask import flash, request
 
+
 @app.route('/create', methods=['POST'])
 def create_user():
     try:
@@ -17,11 +18,11 @@ def create_user():
         _lname = _json['lname']
         _age = _json['age']
         _id = _json['id']
-        if _id and _fname and _lname and _age and id and request.method == 'POST':
+        if _fname and _lname and _age and _id and request.method == 'POST':
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            sqlQuery = 'INSERT INTO user(fname, lname, age, id) VALUES(%s, %s, %s, %s)'
-            bindData = (_fname, _lname, _age, _id) 
+            sqlQuery = "INSERT INTO user(fname, lname, age, id) VALUES(%s, %s, %s, %s)"
+            bindData = (_fname, _lname, _age, _id)
             cursor.execute(sqlQuery, bindData)
             conn.commit()
             response = jsonify('User added successfully')
